@@ -21,6 +21,10 @@ OptionParser.new do |opts|
     options[:format] = f.to_sym
   end
 
+  opts.on("-c", "--classes DEFAULT_CLASSES", "Default CSS classes for each generated SVG element") do |c|
+    options[:classes] = c
+  end
+
   opts.on("-h", "--help", "Show help") do |h|
     puts opts
     exit
@@ -40,6 +44,6 @@ SvgThang::Mirrorer
   .new(output_dir: options[:output_dir])
   .mirror(dir: options[:source_dir]) do |source_path, target_path|
   converters[options[:format]]
-    .new
+    .new(default_classes: options[:classes] || "")
     .convert(source_path, target_path)
 end
