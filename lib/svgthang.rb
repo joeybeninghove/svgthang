@@ -9,5 +9,6 @@ module SvgThang
   end
 end
 
+require "svgthang/mirrorer"
 require "svgthang/erb_converter"
 require "svgthang/liquid_converter"

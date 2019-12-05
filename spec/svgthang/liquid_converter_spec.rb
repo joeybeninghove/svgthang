@@ -2,29 +2,21 @@ require "spec_helper"
 
 RSpec.describe SvgThang::LiquidConverter do
   describe "#convert" do
-    it "does something" do
+    it "generates liquid template from svg file" do
       if Dir.exist?("tmp/build")
         FileUtils.remove_dir("tmp/build")
       end
-
-      svg_dir_root = Pathname.new("spec/fixtures/fa")
-      liquid_dir_root = Pathname.new("tmp/build/liquid")
+      FileUtils.mkdir_p("tmp/build")
 
       SvgThang::LiquidConverter
-        .new(build_dir: liquid_dir_root.to_s, default_classes: "default-class")
-        .convert(svg_dir_root.to_s)
+        .new(default_classes: "default-class")
+        .convert("spec/fixtures/icon.svg", "tmp/build/icon.svg")
 
-      Dir.each_child(liquid_dir_root) do |dir_name|
-        liquid_dir_path = Pathname.new(liquid_dir_root.join(dir_name))
+      svg_doc = Oga.parse_html(File.read("tmp/build/icon.svg"))
+      svg_class = svg_doc.at_css("svg").get("class")
 
-        Dir.each_child(liquid_dir_path.to_s) do |filename|
-          svg_doc = Oga.parse_html(File.read(liquid_dir_path.join(filename)))
-          svg_class = svg_doc.at_css("svg").get("class")
-
-          expect(svg_class).to include "default-class"
-          expect(svg_class).to include "{{ include.classes }}"
-        end 
-      end
+      expect(svg_class).to include "default-class"
+      expect(svg_class).to include "{{ include.classes }}"
     end
   end
 end
