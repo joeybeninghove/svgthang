@@ -25,6 +25,10 @@ OptionParser.new do |opts|
     options[:classes] = c
   end
 
+  opts.on("-p", "--prefix FILE_PREFIX", "Prefix to give output files (example: _ for ERB partials)") do |p|
+    options[:prefix] = p
+  end
+
   opts.on("-h", "--help", "Show help") do |h|
     puts opts
     exit
@@ -44,6 +48,6 @@ SvgThang::Mirrorer
   .new(output_dir: options[:output_dir])
   .mirror(dir: options[:source_dir]) do |source_path, target_path|
   converters[options[:format]]
-    .new(default_classes: options[:classes] || "")
+    .new(default_classes: options[:classes], prefix: options[:prefix])
     .convert(source_path, target_path)
 end

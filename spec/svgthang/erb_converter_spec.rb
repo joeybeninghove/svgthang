@@ -34,4 +34,19 @@ RSpec.describe SvgThang::ErbConverter do
       expect(File.exist?("tmp/build/bogus-icon.html.erb")).to be false
     end
   end
+
+  context "when prefix is given" do
+    it "prefixes the output file with the given prefix" do
+      if Dir.exist?("tmp/build")
+        FileUtils.remove_dir("tmp/build")
+      end
+      FileUtils.mkdir_p("tmp/build")
+
+      SvgThang::ErbConverter
+        .new(default_classes: "default-class", prefix: "_")
+        .convert("spec/fixtures/icon.svg", "tmp/build/icon.svg")
+
+      expect(File.exist?("tmp/build/_icon.html.erb")).to be true
+    end
+  end
 end

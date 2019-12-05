@@ -34,4 +34,19 @@ RSpec.describe SvgThang::LiquidConverter do
       expect(File.exist?("tmp/build/bogus-icon.svg")).to be false
     end
   end
+
+  context "when prefix is given" do
+    it "prefixes the output file with the given prefix" do
+      if Dir.exist?("tmp/build")
+        FileUtils.remove_dir("tmp/build")
+      end
+      FileUtils.mkdir_p("tmp/build")
+
+      SvgThang::LiquidConverter
+        .new(default_classes: "default-class", prefix: "l_")
+        .convert("spec/fixtures/icon.svg", "tmp/build/icon.svg")
+
+      expect(File.exist?("tmp/build/l_icon.svg")).to be true
+    end
+  end
 end
