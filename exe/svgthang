@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+require "svgthang"
+require "optparse"
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: svgthang [options]"
+
+  opts.on("-s", "--source-dir SOURCE_DIR", "Source directory of SVG files") do |s|
+    options[:source_dir] = s
+  end
+
+  opts.on("-o", "--output-dir OUTPUT_DIR", "Output directory") do |o|
+    options[:output_dir] = o
+  end
+
+  opts.on("-f", "--format FORMAT", "Output format (erb, liquid)") do |f|
+    options[:format] = f.to_sym
+  end
+
+  opts.on("-h", "--help", "Show help") do |h|
+    puts opts
+    exit
+  end
+end.parse!
+
+converters = {
+  erb: SvgThang::ErbConverter,
+  liquid: SvgThang::LiquidConverter
+}
+
+if Dir.exist?(options[:output_dir])
+  FileUtils.remove_dir(options[:output_dir])
+end
+
+SvgThang::Mirrorer
+  .new(output_dir: options[:output_dir])
+  .mirror(dir: options[:source_dir]) do |source_path, target_path|
+  converters[options[:format]]
+    .new
+    .convert(source_path, target_path)
+end

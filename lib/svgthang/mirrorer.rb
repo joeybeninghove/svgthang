@@ -1,4 +1,5 @@
 require "oga"
+require "pathname"
 
 module SvgThang
   class Mirrorer
