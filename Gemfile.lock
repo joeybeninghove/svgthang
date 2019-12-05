@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     svgthang (0.1.0)
+      htmlentities (~> 4.3)
       oga (~> 3.0)
 
 GEM
@@ -11,6 +12,7 @@ GEM
     ast (2.4.0)
     byebug (11.0.1)
     diff-lcs (1.3)
+    htmlentities (4.3.4)
     oga (3.0)
       ast
       ruby-ll (~> 2.1)
