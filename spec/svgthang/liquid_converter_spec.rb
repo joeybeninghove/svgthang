@@ -19,4 +19,19 @@ RSpec.describe SvgThang::LiquidConverter do
       expect(svg_class).to include "{{ include.classes }}"
     end
   end
+
+  context "file does not start with <svg" do
+    it "skips the template generation" do
+      if Dir.exist?("tmp/build")
+        FileUtils.remove_dir("tmp/build")
+      end
+      FileUtils.mkdir_p("tmp/build")
+
+      SvgThang::LiquidConverter
+        .new(default_classes: "default-class")
+        .convert("spec/fixtures/bogus-icon.svg", "tmp/build/bogus-icon.svg")
+
+      expect(File.exist?("tmp/build/bogus-icon.svg")).to be false
+    end
+  end
 end
