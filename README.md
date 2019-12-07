@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-```bash
+```
 Usage: svgthang [options]
     -s, --source-dir SOURCE_DIR      Source directory of SVG files
     -o, --output-dir OUTPUT_DIR      Output directory
