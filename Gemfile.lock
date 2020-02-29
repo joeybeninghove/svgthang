@@ -16,7 +16,7 @@ GEM
     oga (3.0)
       ast
       ruby-ll (~> 2.1)
-    rake (10.5.0)
+    rake (13.0.1)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -40,7 +40,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.17)
   byebug (~> 11.0)
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.9)
   svgthang!
 
